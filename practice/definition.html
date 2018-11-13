@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>声明式函数定义与函数表达式</title>
+	</head>
+	<body>
+		<!--声明式函数定义的代码先于函数执行代码被解析器解析，而引用式函数定义，或者函数表达式则是在函数执行过程中进行动态解析的-->
+		<script>
+		/*定义函数两个方式
+			 2.函数声明，声明式函数
+			 1.函数表达式或者引用式函数
+			 */
+		    function functionName (arg0,arg1,arg2) {    //命名方式
+				//函数体
+				alert(functionName.name);
+			}
+			functionName(); //"functionName"
+			
+			
+			
+			//函数表达式在使用之前必须先赋值，才能调用
+			var functionName = function(){     //匿名函数
+				//函数体
+			};  
+		     sayHi();    // ①错误，函数还不存在  ，底下代码不执行。②正确执行声明式函数，弹出hello
+		     var sayHi = function sayHi(){
+		     	alert("Hi");   // 这个Hi没有弹出，函数表达式在执行过程中进行动态解析，所以调用之前必须先赋值
+		     }; 
+		     
+			/*关于函数声明的一个重要特征：函数声明提升(function declaration hoisting)
+			 意思是在执行代码之前会先读取函数声明。这就意味着可以把函数声明放在调用它的语句后面。*/
+			sayHi();   // 正确执行函数表达式，弹出Hi 
+			function sayHi(){  // ②声明式函数，命名以后第一个sayHi顺利执行，弹出hello
+				alert("hello!");   //这个hello也弹出了 
+			}
+			
+			
+			function dwn(s){
+				document.write(s + "<br />");
+			}
+			function t1() {   //声明式函数
+				dwn("t1");
+			}
+			t1();  //我是最新的t1
+			function t1() {   //重新声明了一个新的t1 函数
+				dwn("new t1");
+			}
+			t1(); //我是最新的t1
+			function t1() {   //我是第三个声明式函数t1，我会覆盖前两个t1()函数，因为我优先于函数执行代码被解析器解析。
+				dwn("我是最新的t1");
+			}
+			t1();  //我是最新的t1
+			t1 = function(){     //用函数表达式给 t1重新赋值
+				dwn("new new t1");
+			}
+			t1();  //new new t1
+			t1 = function(){
+				dwn("我是第二次用函数表达式赋的值");
+			}
+			t1();   //我是第二次用函数表达式赋的值
+		</script>
+	</body>
+</html>
